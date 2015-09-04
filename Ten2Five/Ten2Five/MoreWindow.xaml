@@ -1,0 +1,29 @@
+﻿<Window x:Class="Ten2Five.MoreWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:l="clr-namespace:Ten2Five"
+        Title="Ten2Five: Plugins" Height="350" Width="300" ResizeMode="NoResize" MouseUp="About_Plugin_Reset" WindowStyle="SingleBorderWindow">
+    <Window.Resources>
+        <DataTemplate x:Key="Configure_Button_Template">
+            <TextBlock Text="Configure" />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type l:Plugin}">
+            <Grid>
+                <TextBlock Margin="10,10,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" TextDecorations="Underline" Tag="{Binding}" TextAlignment="Left" Width="120" Text="{Binding Name}" FontSize="12" Cursor="Hand" Foreground="Blue" MouseUp="About_Plugin_Click" MouseDown="About_Plugin_Down" />
+                <Button Padding="0,0,0,0" Margin="160,5,0,0" VerticalAlignment="Top" Width="70" Height="23" Content="{Binding}" ContentTemplate="{StaticResource Configure_Button_Template}" Click="Configure_Plugin_Click" />
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Button Content="OK" Height="23" HorizontalAlignment="Center" Margin="0,0,0,15" Name="OK_Button" VerticalAlignment="Bottom" Width="75" Click="OK_Button_Click" />
+        <Label Content="Plugins:" Height="28" HorizontalAlignment="Left" Margin="10,15,0,0" Name="label1" VerticalAlignment="Top" />
+        <ListView Name="List_Plugins" Margin="15,45,15,52" IsEnabled="True">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Focusable" Value="false"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</Window>
+

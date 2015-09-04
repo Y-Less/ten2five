@@ -1,0 +1,19 @@
+﻿<Window x:Class="Ten2Five.Plugins.PluginWordsAbout"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Learn Words: About" Height="365" Width="300" MouseUp="Reset_MouseUp" ResizeMode="NoResize">
+    <Grid>
+        <TextBlock HorizontalAlignment="Center" Margin="0,15,0,0" Height="25" VerticalAlignment="Top" TextWrapping="WrapWithOverflow"><Run FontSize="20">Learn Words Plugin</Run></TextBlock>
+        <TextBlock HorizontalAlignment="Center" Margin="0,40,0,0" Height="20" VerticalAlignment="Top" TextWrapping="WrapWithOverflow"><Run FontSize="15">© Alex "Y_Less" Cole, 2015</Run></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="15,70,15,15" VerticalAlignment="Top" TextWrapping="WrapWithOverflow">
+This plugin shows you some words during "Play" time, so you can try and learn them.  It either shows you the word, then the answer (could be a meaning or translation); or it shows you the answer, from which you must remember the original word.
+<LineBreak />
+<LineBreak />
+The sourcecode for this plugin is included in the sourcecode of "Ten2Five", by Alex "Y_Less" Cole, licensed under the Mozilla Public License (MPL) version 1.1; a copy of which can be obtained from:
+<LineBreak />
+<Underline Name="Link_MPL" Cursor="Hand" MouseDown="Click_MouseDown" MouseUp="Click_MouseUp"><Run Foreground="Blue">https://www.mozilla.org/en-US/MPL/1.1/</Run></Underline>
+        </TextBlock>
+        <Button Content="OK" HorizontalAlignment="Center" Margin="0,0,0,15" VerticalAlignment="Bottom" Width="60" Click="OK_Click" />
+    </Grid>
+</Window>
+

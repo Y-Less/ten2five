@@ -1,0 +1,65 @@
+﻿<Window x:Class="Ten2Five.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:l="clr-namespace:Ten2Five"
+        SizeChanged="Window_Resize"
+        SourceInitialized="Window_Initialised"
+        Title="Ten2Five" Height="600" Width="1000" WindowStyle="SingleBorderWindow">
+    <Window.Resources>
+        <DataTemplate x:Key="Remove_Button_Template">
+            <TextBlock Text="-" />
+        </DataTemplate>
+        <DataTemplate x:Key="Up_Button_Template">
+            <TextBlock Text="&#9650;" />
+        </DataTemplate>
+        <DataTemplate x:Key="Down_Button_Template">
+            <TextBlock Text="&#9660;" />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type l:Task}">
+            <Grid>
+                <CheckBox IsChecked="{Binding Done}" FontSize="10" MinHeight="20" VerticalAlignment="Top" Margin="5,15,0,0">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                    </CheckBox.LayoutTransform>
+                    <TextBlock TextWrapping="Wrap" Width="120" Text="{Binding Name}" FontSize="12" />
+                </CheckBox>
+                <Button Padding="-1,-2,0,0" Margin="225,5,0,0"  VerticalAlignment="Top" Height="15" Width="15" FontSize="10" Content="{Binding}" ContentTemplate="{StaticResource Up_Button_Template}" Click="Up_Task_Click" />
+                <Button Padding="-1,-10,0,0" Margin="225,20,0,0" VerticalAlignment="Top" Height="15" Width="15" FontSize="20" Content="{Binding}" ContentTemplate="{StaticResource Remove_Button_Template}" Click="Remove_Task_Click" />
+                <Button Padding="-1,-2,0,0" Margin="225,35,0,0" VerticalAlignment="Top" Height="15" Width="15" FontSize="10" Content="{Binding}" ContentTemplate="{StaticResource Down_Button_Template}" Click="Down_Task_Click" />
+                <!--</StackPanel>-->
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid Name="Grid_1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500*" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+        <Label Height="200" Name="Text_Clock" Content="10:00" Margin="0,0,0,30" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="72" Foreground="DarkRed" ForceCursor="False" />
+        <Label Height="60" Name="Text_Cycle" Content="(Cycle 1)" Margin="0,100,0,0" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Foreground="DarkRed" ForceCursor="False" />
+
+        <Canvas Grid.Column="0" Margin="20,20,20,20" Name="Canvas_Clock">
+        </Canvas>
+
+        <Canvas Grid.Column="1" Margin="15,15,15,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="270" Width="270" Name="Canvas_Small">
+        </Canvas>
+        <Button Margin="20,20,20,20" Height="{Binding ActualWidth, ElementName=Canvas_Clock}" Name="Button_Clock" Content="" Width="{Binding ActualWidth, ElementName=Canvas_Clock}" Opacity="0" Click="Button_Pause_Click" Cursor="Hand" />
+        <Button Grid.Column="1" Margin="15,15,15,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="{Binding ActualWidth, ElementName=Canvas_Small}" Name="Button_Small" Content="" Width="{Binding ActualWidth, ElementName=Canvas_Small}" Opacity="0" Click="Button_Pause_Click" Visibility="Collapsed" Cursor="Hand" />
+        <TextBox KeyUp="Text_Add_Item_KeyUp" PreviewKeyDown="Text_Add_Item_KeyDown" Grid.Column="1" Height="35" HorizontalAlignment="Center" Margin="-35,50,0,0" Name="Text_Add_Item" VerticalAlignment="Top" Width="165" FontSize="20" />
+        <Button Content="+" Grid.Column="1" Height="35" HorizontalAlignment="Center" Margin="165,50,0,0" Name="Button_Add_Item" VerticalAlignment="Top" Width="35" FontSize="20" Click="Button_Add_Item_Click" Padding="0,-4,0,0" />
+        <ListView Name="List_Tasks" Grid.Column="1" Margin="15,100,15,70" IsEnabled="True">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Focusable" Value="false"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <TextBlock Name="Label_Tasks" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Text="Tasks:" VerticalAlignment="Top" FontSize="24" />
+        <!--TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,120" Text="Control:" VerticalAlignment="Bottom" FontSize="24" /-->
+        <Button Content="Info" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="0,0,-180,20" Name="Button_More" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_More_Click" />
+        <Button Content="Skip" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="-180,0,0,20" Name="Button_Skip" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_Skip_Click" IsEnabled="True" />
+        <Button Content="Reset" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="0,0,0,20" Name="Button_Reset" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_Reset_Click" />
+        <!--Button Content="Mute" Grid.Column="1" Height="40" HorizontalAlignment="Center" Margin="0,0,-110,22" Name="Button_Mute" VerticalAlignment="Bottom" Width="100" FontSize="20" Click="Button_Mute_Click" /-->
+    </Grid>
+</Window>
+
