@@ -28,6 +28,7 @@ public class MinimizeToTray
     private Window _window;
     private NotifyIcon _notifyIcon;
     private bool _balloonShown;
+	private  bool _minimized = false;
 
     public Window Window { get { return _window; } }
     public NotifyIcon NotifyIcon { get { return _notifyIcon; } }
@@ -63,16 +64,32 @@ public class MinimizeToTray
         _notifyIcon.Text = _window.Title;
 
         // Show/hide Window and NotifyIcon
-        var minimized = (_window.WindowState == WindowState.Minimized);
-        _window.ShowInTaskbar = !minimized;
-        _notifyIcon.Visible = minimized;
-        if (minimized && !_balloonShown)
-        {
-            // If this is the first time minimizing to the tray, show the user what happened
-            _notifyIcon.ShowBalloonTip(1000, null, _window.Title, ToolTipIcon.None);
-            _balloonShown = true;
-        }
+        _minimized = (_window.WindowState == WindowState.Minimized);
+		_window.ShowInTaskbar = !_minimized;
+		_notifyIcon.Visible = _minimized;
+		if (_minimized && !_balloonShown)
+		{
+			// If this is the first time minimizing to the tray, show the user what happened
+			_notifyIcon.ShowBalloonTip(1000, null, _window.Title, ToolTipIcon.None);
+			_balloonShown = true;
+		}
     }
+
+	public void ShowBaloon(string message)
+	{
+		if (_minimized)
+		{
+			_notifyIcon.ShowBalloonTip(1000, null, message, ToolTipIcon.None);
+		}
+	}
+
+	public void SetIcon(Icon icon)
+	{
+		if (_minimized)
+		{
+			_notifyIcon.Icon = icon;
+		}
+	}
 
 	public void Hide()
 	{

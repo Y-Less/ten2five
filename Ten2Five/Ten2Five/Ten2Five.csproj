@@ -71,6 +71,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Drawing\IconGen.cs" />
+    <Compile Include="FlimFlam\IconEncoder\BitmapHolder.cs" />
+    <Compile Include="FlimFlam\IconEncoder\Converter.cs" />
+    <Compile Include="FlimFlam\IconEncoder\IconHolder.cs" />
+    <Compile Include="FlimFlam\IconEncoder\ImageStructs.cs" />
     <Compile Include="Plugins\Core\PluginCore.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Plugins\Core\PluginCoreAbout.xaml.cs">

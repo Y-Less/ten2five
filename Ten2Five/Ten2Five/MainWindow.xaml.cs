@@ -303,6 +303,16 @@ namespace Ten2Five
 
 		private void DrawIcon(double secondsDone, double secondsTotal, bool type, int cycle)
 		{
+			if (working_)
+			{
+				double percent = secondsDone / secondsTotal;
+				minimise_.SetIcon(IconGen.Generate(percent, Brushes.DarkRed, Brushes.LightGray));
+			}
+			else
+			{
+				double percent = secondsDone / secondsTotal;
+				minimise_.SetIcon(IconGen.Generate(1.0 - percent, Brushes.LightGray, Brushes.DarkGreen));
+			}
 		}
 
 		private void DrawCurrentClock()
@@ -366,6 +376,7 @@ namespace Ten2Five
 						mediaPlayer_.Play();
 						mediaPlayer_.Position = new TimeSpan(0);
 					}
+					minimise_.ShowBaloon("Time's up!");
 					this.NextCycle(endPoint_);
 				}
 			}

@@ -40,6 +40,8 @@ namespace Ten2Five.Plugins
 		private DateTime startTime_;
 		private WordMap currentWord_ = null;
 
+		private static WordMap nullWord_ = new WordMap { Meaning = "No Words Found!", Word = "No Words Found!" };
+
 		public static double DISPLAY_SECONDS = 15.0;
 		public static double ANSWER_SECONDS = DISPLAY_SECONDS + 5.0;
 
@@ -118,7 +120,10 @@ namespace Ten2Five.Plugins
 				if ((now - startTime_).TotalSeconds > ANSWER_SECONDS)
 				{
 					// Change the word.
-					currentWord_ = words_[rand_.Next(words_.Count)];
+					if (words_.Count == 0)
+						currentWord_ = nullWord_;
+					else
+						currentWord_ = words_[rand_.Next(words_.Count)];
 					startTime_ = now;
 					showMeaning_ = rand_.Next(2) == 1;
 					showAnswer_ = false;
