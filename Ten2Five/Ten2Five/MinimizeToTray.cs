@@ -38,11 +38,12 @@ public class MinimizeToTray
     /// Initializes a new instance of the MinimizeToTrayInstance class.
     /// </summary>
     /// <param name="window">Window instance to attach to.</param>
-    public MinimizeToTray(Window window)
+	public MinimizeToTray(Window window, bool balloonShown)
     {
         Debug.Assert(window != null, "window parameter is null.");
         _window = window;
         _window.StateChanged += new EventHandler(HandleStateChanged);
+		_balloonShown = balloonShown;
     }
 
     /// <summary>
@@ -81,6 +82,11 @@ public class MinimizeToTray
 		{
 			_notifyIcon.ShowBalloonTip(1000, null, message, ToolTipIcon.None);
 		}
+	}
+
+	public bool BaloonShown()
+	{
+		return _balloonShown;
 	}
 
 	public void SetIcon(Icon icon)

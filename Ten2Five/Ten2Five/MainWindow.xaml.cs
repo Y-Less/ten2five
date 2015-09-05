@@ -74,6 +74,7 @@ namespace Ten2Five
         private bool sound_ = true;
         private int workSeconds_ = 600;
         private int playSeconds_ = 120;
+		private bool ballonShown_ = false;
 
         public bool Sound { get { return sound_; } set { sound_ = value; Update(); } }
 
@@ -104,6 +105,8 @@ namespace Ten2Five
 		public ObservableCollection<Plugin> Plugins { get; set; }
 
 		public bool PauseMusic { get; set; }
+
+		public bool BallonShown { get { return ballonShown_; } set { ballonShown_ = value; Update(); } }
 	}
 
     /// <summary>
@@ -143,13 +146,13 @@ namespace Ten2Five
 
 		public MainWindow()
 		{
-			minimise_ = new MinimizeToTray(this);
-
 			db_ = new SQLiteConnection(DATABASE_PATH);
 			db_.CreateTable<Task>();
 			db_.CreateTable<ProgSettings>();
 			tasks_ = new ObservableCollection<Task>(db_.Table<Task>().OrderBy(t => t.Order));
 			settings_ = db_.Find<ProgSettings>(1);
+
+			minimise_ = new MinimizeToTray(this, settings_.BallonShown);
 
 			settings_.Plugins = new ObservableCollection<Plugin>(new Plugin[] { new PluginCore(settings_), new PluginWords(db_) });
 
@@ -179,11 +182,17 @@ namespace Ten2Five
 			this.ResetTimer(true, DateTime.Now);
 
 			App.Tick += Tick;
+			Closed += MainWindow_Closed;
 
 			mediaPlayer_.Open(new Uri(Environment.CurrentDirectory + "\\bell.mp3"));
 			mediaPlayer_.Volume = 1.0;
 
 			tasks_.CollectionChanged += this.OnCollectionChanged;
+		}
+
+		void MainWindow_Closed(object sender, EventArgs e)
+		{
+			settings_.BallonShown = minimise_.BaloonShown();
 		}
 
 		private void MoveBy(Task t, int move)
@@ -306,12 +315,12 @@ namespace Ten2Five
 			if (working_)
 			{
 				double percent = secondsDone / secondsTotal;
-				minimise_.SetIcon(IconGen.Generate(percent, Brushes.DarkRed, Brushes.LightGray));
+				minimise_.SetIcon(IconGen.Generate(percent, Brushes.DarkRed, Brushes.White));
 			}
 			else
 			{
 				double percent = secondsDone / secondsTotal;
-				minimise_.SetIcon(IconGen.Generate(1.0 - percent, Brushes.LightGray, Brushes.DarkGreen));
+				minimise_.SetIcon(IconGen.Generate(1.0 - percent, Brushes.White, Brushes.DarkGreen));
 			}
 		}
 
