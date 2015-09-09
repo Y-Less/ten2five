@@ -84,6 +84,7 @@
     <Compile Include="Plugins\Core\PluginCoreConfigure.xaml.cs">
       <DependentUpon>PluginCoreConfigure.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plugins\Words\WordSelection.cs" />
     <Compile Include="ProgramInfo.cs" />
     <Compile Include="SingleInstance.cs" />
     <Compile Include="WinApi.cs" />

@@ -17,13 +17,69 @@ namespace Ten2Five.Plugins
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; set; }
 
+		private double accuracy_ = 1.0;
+
 		private string word_ = "";
 		public string Word { get { return word_; } set { word_ = value; Notify("Word"); } }
 
 		private string meaning_ = "";
 		public string Meaning { get { return meaning_; } set { meaning_ = value; Notify("Meaning"); } }
 
+		private int shown_ = 0;
+		public int Shown { get { return shown_; } set { shown_ = value; Notify("Shown"); accuracy_ = GetAccuracy(shown_, wrong_);  } }
+
+		private int wrong_ = 0;
+		public int Wrong { get { return wrong_; } set { wrong_ = value; Notify("Wrong"); } }
+
+		[Ignore]
+		public bool Right { set { if (!value) ++Wrong; ++Shown; } }
+
+		// Return the likelihood of this result being down to random chance.
+		[Ignore]
+		public double Accuracy { get { return accuracy_; } }
+
 		public event PropertyChangedEventHandler PropertyChanged;
+
+		private static double GetAccuracy(int n, int k)
+		{
+			return ChooseSum(n, k) / Math.Pow(2.0, n);
+		}
+
+		// This function does:
+		// 
+		//     k
+		//    ---
+		//    \     (n)
+		//    /     (i)
+		//    ---
+		//   i = 0
+		// 
+		// I.e. a partial sum of combinations.
+		private static long ChooseSum(int n, int k)
+		{
+			// Invalid.
+			if (k > n)
+				return 0;
+			// Always 2 ** n.
+			if (k == n)
+				return (long)Math.Pow(2, n);
+			if (k == 0)
+				return 1;
+			// We DO NOT want to mirror this, since we need the partial sum of
+			// all combinations.
+			long r = 1;
+			long total = 1;
+			// Slow, but won't overflow (much).
+			for (long d = 1; d <= k; ++d)
+			{
+				r *= n;
+				r /= d;
+				--n;
+				// Partial sum of combinations.
+				total += r;
+			}
+			return total;
+		}
 
 		protected void Notify(string name)
 		{

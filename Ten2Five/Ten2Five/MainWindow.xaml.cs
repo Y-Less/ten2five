@@ -1,4 +1,47 @@
-﻿using System;
+﻿/* 
+ * This file contains the main window, the majority of the view when running
+ * ten2five.
+ * 
+ * It is a study in code repetition and missing comments, and this fact is
+ * making me really antsy!  The code started out as a single file, just a quick
+ * hack to render a circle and save some TODO items, then it grew slightly and
+ * never recovered from its poor beginnings.  I opted not to rip everything out
+ * and restart as ultimately it is now working quite well and performing major
+ * refactorings on what is meant to be a functioning procrastination hack sort
+ * of defeats the object!  I learned things from the experience, and I can apply
+ * them to future projects, but while it is annoying me, there's no point in
+ * retroactively applying them to the project, when I'm happy with the result.
+ * 
+ * This file also includes the Task and ProgSettings classes, both stored in a
+ * local sqlite database (using the SQLite library from):
+ * 
+ * https://github.com/praeclarum/sqlite-net
+ * 
+ * The design is based on:
+ * 
+ * http://chads.website/tentwofive/
+ * 
+ * And the original technique comes from:
+ * 
+ * http://www.43folders.com/2005/10/11/procrastination-hack-1025
+ * 
+ * The minimise to system tray code comes from:
+ * 
+ * http://dlaa.me/blog/post/9889700
+ * 
+ * The single running instance with window switch was modified (to account for
+ * a running instance potentially being in the system tray, since the advertised
+ * method didn't work for me) from:
+ * 
+ * http://www.codeproject.com/Articles/32908/C-Single-Instance-App-With-the-Ability-To-Restore
+ * 
+ * The system tray icon generation code is from:
+ * 
+ * http://www.codeproject.com/Articles/7122/Dynamically-Generating-Icons-safely?msg=1304833
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
