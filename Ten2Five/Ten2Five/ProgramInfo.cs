@@ -1,4 +1,6 @@
-﻿using System;
+﻿// http://www.codeproject.com/Articles/32908/C-Single-Instance-App-With-the-Ability-To-Restore
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

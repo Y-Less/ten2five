@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Copyright (c) 2015 Alex "Y_Less" Cole
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public License,
+ * v. 2.0. If a copy of the MPL was not distributed with this file, You can
+ * obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,7 +54,7 @@ namespace Ten2Five.Plugins
 			{
 				// Finished a click.
 				if (sender == Link_MPL)
-					GoTo("https://www.mozilla.org/en-US/MPL/1.1/");
+					GoTo("https://www.mozilla.org/en-US/MPL/2.0/");
 			}
 			sawDown_ = null;
 		}

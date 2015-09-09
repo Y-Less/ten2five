@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿// http://dlaa.me/blog/post/9889700
+
+using System.Windows;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System;
