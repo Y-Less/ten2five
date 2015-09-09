@@ -23,6 +23,8 @@ namespace Ten2Five
 	/// </summary>
 	public partial class App : Application
 	{
+		private const string DATABASE_PATH = ".\\todo.sqlite";
+
 		App()
 		{
 			InitializeComponent();
@@ -60,7 +62,7 @@ namespace Ten2Five
 		}
 
 		[STAThread]
-		static void Main()
+		static void Main(string[] args)
 		{
 			if (!SingleInstance.Start())
 			{
@@ -69,7 +71,16 @@ namespace Ten2Five
 			}
 
 			Application a = new App();
-			Window w = new MainWindow();
+
+			string dbpath = DATABASE_PATH;
+
+			// Find the initial window to show.
+			foreach (string arg in args)
+			{
+				if (arg.Substring(0, 5) == "--db=")
+					dbpath = arg.Substring(5);
+			}
+			Window w = new MainWindow(dbpath);
 			a.Run(w);
 
 			SingleInstance.Stop();

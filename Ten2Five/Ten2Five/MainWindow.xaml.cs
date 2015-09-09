@@ -165,8 +165,6 @@ namespace Ten2Five
     /// </summary>
     public partial class MainWindow : Window
     {
-		public const string DATABASE_PATH = ".\\todo.sqlite";
-
 		private SQLiteConnection db_;
 
 		private DateTime endPoint_;
@@ -195,9 +193,9 @@ namespace Ten2Five
 
 		private Random rand_ = new Random();
 
-		public MainWindow()
+		public MainWindow(string dbpath)
 		{
-			db_ = new SQLiteConnection(DATABASE_PATH);
+			db_ = new SQLiteConnection(dbpath);
 			db_.CreateTable<Task>();
 			db_.CreateTable<ProgSettings>();
 			tasks_ = new ObservableCollection<Task>(db_.Table<Task>().OrderBy(t => t.Order));
