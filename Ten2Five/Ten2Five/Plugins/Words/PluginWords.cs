@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace Ten2Five.Plugins
 {
@@ -17,8 +18,6 @@ namespace Ten2Five.Plugins
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; set; }
 
-		private double accuracy_ = 1.0;
-
 		private string word_ = "";
 		public string Word { get { return word_; } set { word_ = value; Notify("Word"); } }
 
@@ -26,60 +25,15 @@ namespace Ten2Five.Plugins
 		public string Meaning { get { return meaning_; } set { meaning_ = value; Notify("Meaning"); } }
 
 		private int shown_ = 0;
-		public int Shown { get { return shown_; } set { shown_ = value; Notify("Shown"); accuracy_ = GetAccuracy(shown_, wrong_);  } }
+		public int Shown { get { return shown_; } set { shown_ = value; Notify("Shown"); } }
 
 		private int wrong_ = 0;
 		public int Wrong { get { return wrong_; } set { wrong_ = value; Notify("Wrong"); } }
 
 		[Ignore]
-		public bool Right { set { if (!value) ++Wrong; ++Shown; } }
-
-		// Return the likelihood of this result being down to random chance.
-		[Ignore]
-		public double Accuracy { get { return accuracy_; } }
+		public bool Right { set { if (!value) ++wrong_; ++shown_; Notify("Right"); } }
 
 		public event PropertyChangedEventHandler PropertyChanged;
-
-		private static double GetAccuracy(int n, int k)
-		{
-			return ChooseSum(n, k) / Math.Pow(2.0, n);
-		}
-
-		// This function does:
-		// 
-		//     k
-		//    ---
-		//    \     (n)
-		//    /     (i)
-		//    ---
-		//   i = 0
-		// 
-		// I.e. a partial sum of combinations.
-		private static long ChooseSum(int n, int k)
-		{
-			// Invalid.
-			if (k > n)
-				return 0;
-			// Always 2 ** n.
-			if (k == n)
-				return (long)Math.Pow(2, n);
-			if (k == 0)
-				return 1;
-			// We DO NOT want to mirror this, since we need the partial sum of
-			// all combinations.
-			long r = 1;
-			long total = 1;
-			// Slow, but won't overflow (much).
-			for (long d = 1; d <= k; ++d)
-			{
-				r *= n;
-				r /= d;
-				--n;
-				// Partial sum of combinations.
-				total += r;
-			}
-			return total;
-		}
 
 		protected void Notify(string name)
 		{
@@ -105,7 +59,10 @@ namespace Ten2Five.Plugins
 		private bool showAnswer_;
 
 		private Random rand_ = new Random();
-		private bool dirty_;
+		private bool dirty_ = false;
+		private Style yesStyle_;
+		private  WordMap toSave_ = null;
+		private  bool right_ = false;
 
 		public PluginWords(SQLiteConnection db)
 		{
@@ -117,6 +74,14 @@ namespace Ten2Five.Plugins
 				newItem.PropertyChanged += this.OnItemPropertyChanged;
 			}
 			words_.CollectionChanged += this.OnCollectionChanged;
+			yesStyle_ = new Style();
+			Trigger omo;
+			omo = new Trigger() { Property = UIElement.IsMouseOverProperty, Value = true };
+			omo.Setters.Add(new Setter(Control.BackgroundProperty, Brushes.Gainsboro));
+			yesStyle_.Triggers.Add(omo);
+			omo = new Trigger() { Property = UIElement.IsMouseOverProperty, Value = false };
+			omo.Setters.Add(new Setter(Control.BackgroundProperty, Brushes.Transparent));
+			yesStyle_.Triggers.Add(omo);
 		}
 
 		public override Window ShowConfigure()
@@ -173,13 +138,13 @@ namespace Ten2Five.Plugins
 			DateTime now = DateTime.Now;
 			if (showAnswer_)
 			{
-				if ((now - startTime_).TotalSeconds > ANSWER_SECONDS)
+				if ((now - startTime_).TotalSeconds >= ANSWER_SECONDS)
 				{
 					// Change the word.
 					if (words_.Count == 0)
 						currentWord_ = nullWord_;
 					else
-						currentWord_ = words_[rand_.Next(words_.Count)];
+						currentWord_ = WordSelection.Select(words_);
 					startTime_ = now;
 					showMeaning_ = rand_.Next(2) == 1;
 					showAnswer_ = false;
@@ -189,7 +154,7 @@ namespace Ten2Five.Plugins
 			}
 			else
 			{
-				if ((now - startTime_).TotalSeconds > DISPLAY_SECONDS)
+				if ((now - startTime_).TotalSeconds >= DISPLAY_SECONDS)
 				{
 					// Change the word.
 					showAnswer_ = true;
@@ -197,6 +162,12 @@ namespace Ten2Five.Plugins
 					dirty_ = false;
 					return true;
 				}
+			}
+			if (toSave_ != null)
+			{
+				toSave_.Right = right_;
+				toSave_ = null;
+				right_ = false;
 			}
 			if (dirty_)
 			{
@@ -212,6 +183,19 @@ namespace Ten2Five.Plugins
 			showAnswer_ = true;
 			showMeaning_ = !showMeaning_;
 			startTime_ = DateTime.Now.AddSeconds(-DISPLAY_SECONDS);
+		}
+
+		private void OnYes(object sender, EventArgs e)
+		{
+			startTime_ = DateTime.Now.AddSeconds(-ANSWER_SECONDS);
+			toSave_ = currentWord_;
+			right_ = true;
+		}
+
+		private void OnNo(object sender, EventArgs e)
+		{
+			startTime_ = DateTime.Now.AddSeconds(-ANSWER_SECONDS);
+			toSave_ = currentWord_;
 		}
 
 		public override void Render(Canvas parent)
@@ -234,7 +218,34 @@ namespace Ten2Five.Plugins
 				str = (showMeaning_ ? currentWord_.Meaning : currentWord_.Word); //.Replace('`', '\x0301');
 			tb.Content = str;
 			parent.Children.Add(tb);
-			if (!showAnswer_)
+			if (showAnswer_)
+			{
+				Button yes = new Button();
+				yes.Content = "✔";
+				yes.Style = yesStyle_;
+				yes.Cursor = Cursors.Hand;
+				yes.BorderBrush = Brushes.Transparent;
+				yes.Foreground = Brushes.LimeGreen;
+				yes.Width = 100;
+				yes.Height = 100;
+				yes.Margin = new Thickness(x + 10.0, y + 70.0, 0.0, 0.0);
+				yes.Click += OnYes;
+				yes.FontSize = 72.0;
+				parent.Children.Add(yes);
+				Button no = new Button();
+				no.Content = "✖";
+				no.Style = yesStyle_;
+				no.Cursor = Cursors.Hand;
+				no.BorderBrush = Brushes.Transparent;
+				no.Foreground = Brushes.DarkRed;
+				no.Width = 100;
+				no.Height = 100;
+				no.Margin = new Thickness(x - 110.0, y + 70.0, 0.0, 0.0);
+				no.Click += OnNo;
+				no.FontSize = 72.0;
+				parent.Children.Add(no);
+			}
+			else
 			{
 				Button cb = new Button();
 				cb.Content = "Check";
@@ -242,7 +253,7 @@ namespace Ten2Five.Plugins
 				cb.Height = 50;
 				cb.Margin = new Thickness(x - 50.0, y + 70.0, 0.0, 0.0);
 				cb.Click += OnKnow;
-				cb.FontSize = 20;
+				cb.FontSize = 20.0;
 				parent.Children.Add(cb);
 			}
 		}
