@@ -407,6 +407,8 @@ namespace Ten2Five
 			}
 		}
 
+		DateTime resumePlay_ = DateTime.MaxValue;
+
 		private void Tick(Object source, RenderingEventArgs e)
 		{
 			DateTime time = DateTime.Now;
@@ -431,11 +433,20 @@ namespace Ten2Five
 				{
 					if (settings_.Sound)
 					{
+						if (settings_.PauseMusic)
+							MediaControl.Pause();
+						resumePlay_ = time + new TimeSpan(0, 0, 0, 0, 500);
 						mediaPlayer_.Play();
 						mediaPlayer_.Position = new TimeSpan(0);
 					}
 					minimise_.ShowBaloon("Time's up!");
 					this.NextCycle(endPoint_);
+				}
+				if (time >= resumePlay_)
+				{
+					if (settings_.PauseMusic)
+						MediaControl.Play();
+					resumePlay_ = DateTime.MaxValue;
 				}
 			}
 			else
