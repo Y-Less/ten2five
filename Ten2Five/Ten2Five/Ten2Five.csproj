@@ -54,6 +54,9 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSCore, Version=1.2.1.1, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
+      <HintPath>..\packages\CSCore.1.2.1.1\lib\net35-client\CSCore.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -84,10 +87,14 @@
     <Compile Include="Plugins\Core\PluginCoreConfigure.xaml.cs">
       <DependentUpon>PluginCoreConfigure.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plugins\Words\PluginWordsRecord.xaml.cs">
+      <DependentUpon>PluginWordsRecord.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plugins\Words\WordSelection.cs" />
     <Compile Include="ProgramInfo.cs" />
     <Compile Include="SingleInstance.cs" />
     <Compile Include="Utils\M3Uhandler.cs" />
+    <Compile Include="Utils\MP3Recorder.cs" />
     <Compile Include="WinApi.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -134,6 +141,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Plugins\Words\PluginWordsRecord.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Plugins\Words\PluginWordsAbout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -161,6 +172,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -194,12 +206,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)..\Resources;
-copy $(SolutionDir)..\Resources\russian.sqlite $(TargetDir)todo.sqlite
-copy $(SolutionDir)..\Resources\sqlite3.dll $(TargetDir)
-mkdir $(TargetDir)Playlists 2&gt; nul
-mkdir $(TargetDir)Clips 2&gt; nul
-</PostBuildEvent>
+    <PostBuildEvent>copy /Y $(TargetPath) $(SolutionDir)..\Resources 2&gt; nul &gt; nul
+copy /Y $(SolutionDir)..\Resources\russian.sqlite $(TargetDir)todo.sqlite 2&gt; nul &gt; nul
+copy /Y $(SolutionDir)..\Resources\sqlite3.dll $(TargetDir) 2&gt; nul &gt; nul
+mkdir $(TargetDir)Playlists 2&gt; nul &gt; nul
+mkdir $(TargetDir)Clips 2&gt; nul &gt; nul
+mkdir $(TargetDir)Raw 2&gt; nul &gt; nul</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

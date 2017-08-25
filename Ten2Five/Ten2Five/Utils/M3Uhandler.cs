@@ -28,7 +28,7 @@ namespace Ten2Five.Utils
         public string Name { get; set; }
     }
 
-    public class M3Uhandler
+    public class M3UHandler
     {
         private readonly StreamWriter stream_;
 
@@ -36,7 +36,7 @@ namespace Ten2Five.Utils
         private readonly int id_;
         private readonly SQLiteConnection db_;
 
-        public M3Uhandler(SQLiteConnection db, string filename, string path = "./")
+        public M3UHandler(SQLiteConnection db, string filename, string path = "./")
         {
             db_ = db;
             db_.CreateTable<M3UItem>();
