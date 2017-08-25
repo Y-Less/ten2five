@@ -33,11 +33,23 @@ namespace Ten2Five.Utils
 
             int
                 num = sampleSources_.Count;
-            if (count > 0 && num > idx_)
+            while (count > 0 && num > idx_)
             {
                 lock (lockObj_)
                 {
                     mixerBuffer_ = mixerBuffer_.CheckBuffer(count);
+
+                    int
+                        remaining = (int)(sampleSources_[idx_].Length - sampleSources_[idx_].Position);
+                    if (remaining <= 0)
+                    {
+                        ++idx_;
+                        continue;
+                    }
+                    remaining = Math.Min(count, remaining);
+                    remaining = sampleSources_[idx_].Read(mi)
+
+
                     foreach (var sampleSource in sampleSources_)
                     {
                         // Each time we read from the source, it advances the
