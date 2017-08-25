@@ -18,6 +18,7 @@ namespace Ten2Five.Utils
         private float[] mixerBuffer_;
 
         private int idx_ = 0;
+        private long position_ = 0;
 
         public bool CanSeek => false;
 
@@ -29,39 +30,53 @@ namespace Ten2Five.Utils
 
         public int Read(float[] buffer, int offset, int count)
         {
-            int numberOfStoredSamples = 0;
-
             int
+                numberOfStoredSamples = 0,
                 num = sampleSources_.Count;
             while (count > 0 && num > idx_)
             {
                 lock (lockObj_)
                 {
                     mixerBuffer_ = mixerBuffer_.CheckBuffer(count);
-
+                    var
+                        sampleSource = sampleSources_[idx_];
                     int
-                        remaining = (int)(sampleSources_[idx_].Length - sampleSources_[idx_].Position);
+                        remaining = (int)(sampleSource.Length - position_);
                     if (remaining <= 0)
                     {
+                        position_ = 0;
                         ++idx_;
                         continue;
                     }
-                    remaining = Math.Min(count, remaining);
-                    remaining = sampleSources_[idx_].Read(mi)
-
-
-                    foreach (var sampleSource in sampleSources_)
+                    sampleSource.Position = position_;
+                    int
+                        read = sampleSource.Read(mixerBuffer_, 0, Math.Min(count, remaining));
+                    numberOfStoredSamples += read;
+                    position_ += read;
+                    count -= read;
+                    //Array.Copy(mixerBuffer_, 0, buffer, offset, read);
+                    for (int i = 0, j = offset; i != read; ++i, ++j)
                     {
-                        // Each time we read from the source, it advances the
-                        // internal pointer.
-                        for (int read; (read = sampleSource.Read(mixerBuffer_, 0, count - numberOfStoredSamples)) > 0; )
-                        {
-                            Array.Copy(mixerBuffer_, 0, buffer, offset, read);
-                            numberOfStoredSamples += read;
-                            if (numberOfStoredSamples >= count)
-                                return numberOfStoredSamples;
-                        }
+                        buffer[j] = mixerBuffer_[i];
                     }
+                    if (remaining <= read)
+                    {
+                        position_ = 0;
+                        ++idx_;
+                        continue;
+                    }
+                    //foreach (var sampleSource in sampleSources_)
+                    //{
+                    //    // Each time we read from the source, it advances the
+                    //    // internal pointer.
+                    //    for (int read; (read = sampleSource.Read(mixerBuffer_, 0, count - numberOfStoredSamples)) > 0; )
+                    //    {
+                    //        Array.Copy(mixerBuffer_, 0, buffer, offset, read);
+                    //        numberOfStoredSamples += read;
+                    //        if (numberOfStoredSamples >= count)
+                    //            return numberOfStoredSamples;
+                    //    }
+                    //}
                 }
             }
             return numberOfStoredSamples;
@@ -216,19 +231,19 @@ namespace Ten2Five.Utils
         {
             if (File.Exists(filename))
                 File.Delete(filename);
-            const int mixerSampleRate = 44100;
+            const int mixerSampleRate = 48000;
             AppendingMixer
                 mixer = new AppendingMixer(2, mixerSampleRate);
             mixer.AddSource(
                 CodecFactory.Instance.GetCodec(f0)
-                .ChangeSampleRate(mixerSampleRate)
+//                .ChangeSampleRate(mixerSampleRate)
                 .ToStereo()
                 .ToSampleSource());
             mixer.AddSource(
                 new Silence(5000, 2, mixerSampleRate));
             mixer.AddSource(
                 CodecFactory.Instance.GetCodec(f1)
-                .ChangeSampleRate(mixerSampleRate)
+//                .ChangeSampleRate(mixerSampleRate)
                 .ToStereo()
                 .ToSampleSource());
             mixer.AddSource(
