@@ -95,7 +95,7 @@ namespace Ten2Five.Plugins
 		public override Window ShowConfigure()
 		{
 			// Create a window to configure this plugin.
-			return new PluginWordsConfigure(words_);
+			return new PluginWordsConfigure(db_, words_);
 		}
 
 		public override Window ShowAbout()

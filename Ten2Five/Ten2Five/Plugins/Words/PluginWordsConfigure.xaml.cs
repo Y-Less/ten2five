@@ -19,6 +19,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using SQLite;
+using Ten2Five.Utils;
 
 namespace Ten2Five.Plugins
 {
@@ -28,15 +30,17 @@ namespace Ten2Five.Plugins
 	public partial class PluginWordsConfigure : Window
 	{
 		ObservableCollection<WordMap> words_;
+        private SQLiteConnection db_;
 
-		public PluginWordsConfigure(ObservableCollection<WordMap> words)
+        public PluginWordsConfigure(SQLiteConnection db, ObservableCollection<WordMap> words)
 		{
+            db_ = db;
 			words_ = words;
 			InitializeComponent();
 			List_Words.ItemsSource = words;
 		}
-
-		private void OK_Click(object sender, RoutedEventArgs e)
+        
+        private void OK_Click(object sender, RoutedEventArgs e)
 		{
 			this.DialogResult = true;
 		}
@@ -73,6 +77,19 @@ namespace Ten2Five.Plugins
 				e.Handled = true;
 			}
 		}
-	}
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var
+                x = new M3Uhandler(db_, "test", "./Playlists");
+            x.AddFile("../Clips/hello1");
+            x.AddFile("../Clips/hello2");
+            x.AddFile("../Clips/hello3");
+            x.AddFile("../Clips/hello4");
+            x.AddFile("../Clips/hello5");
+            x.AddFile("../Clips/hello6");
+            x.AddFile("../Clips/hello7");
+        }
+    }
 }
 

@@ -87,6 +87,7 @@
     <Compile Include="Plugins\Words\WordSelection.cs" />
     <Compile Include="ProgramInfo.cs" />
     <Compile Include="SingleInstance.cs" />
+    <Compile Include="Utils\M3Uhandler.cs" />
     <Compile Include="WinApi.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -194,7 +195,11 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) $(SolutionDir)..\Resources;
-copy $(TargetDir)todo.sqlite $(SolutionDir)..\Resources\russian.sqlite</PostBuildEvent>
+copy $(SolutionDir)..\Resources\russian.sqlite $(TargetDir)todo.sqlite
+copy $(SolutionDir)..\Resources\sqlite3.dll $(TargetDir)
+mkdir $(TargetDir)Playlists 2&gt; nul
+mkdir $(TargetDir)Clips 2&gt; nul
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
