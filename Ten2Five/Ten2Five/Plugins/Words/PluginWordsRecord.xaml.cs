@@ -18,15 +18,15 @@ namespace Ten2Five.Plugins
     /// </summary>
     public partial class PluginWordsRecord : Window
 	{
-        private MP3Recorder mp3_;
+        private MP3Recorder mp3_ = null;
         private readonly string name_;
 
         public PluginWordsRecord(string lang, int id)
 		{
             name_ = "./Raw/" + id.ToString() + "_" + lang + ".mp3";
-            mp3_ = new MP3Recorder(name_);
-			InitializeComponent();
+            InitializeComponent();
             Title = "Learn Words: Record " + lang + " Clip";
+            Retry_Click(null, null);
             Stop_Button.Focus();
         }
 
@@ -38,8 +38,8 @@ namespace Ten2Five.Plugins
 
         private void Retry_Click(object sender, RoutedEventArgs e)
         {
-            mp3_.Dispose();
-            File.Delete(name_);
+            if (mp3_ != null)
+                mp3_.Dispose();
             mp3_ = new MP3Recorder(name_);
         }
     }

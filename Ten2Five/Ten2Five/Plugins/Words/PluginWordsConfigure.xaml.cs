@@ -28,7 +28,8 @@ namespace Ten2Five.Plugins
             db_ = db;
 			words_ = words;
 			InitializeComponent();
-			List_Words.ItemsSource = words;
+            TB_Add1.Focus();
+            List_Words.ItemsSource = words;
 		}
         
         private void OK_Click(object sender, RoutedEventArgs e)
@@ -54,6 +55,14 @@ namespace Ten2Five.Plugins
                 // Show the first dialog.
                 new PluginWordsRecord("English", todb.Id).ShowDialog();
                 new PluginWordsRecord("Russian", todb.Id).ShowDialog();
+                MP3Recorder.Mix(
+                    "./Clips/" + todb.Id.ToString() + "_English_Russian.mp3",
+                    "./Raw/" + todb.Id.ToString() + "_English.mp3",
+                    "./Raw/" + todb.Id.ToString() + "_Russian.mp3");
+                MP3Recorder.Mix(
+                    "./Clips/" + todb.Id.ToString() + "_Russian_English.mp3",
+                    "./Raw/" + todb.Id.ToString() + "_Russian.mp3",
+                    "./Raw/" + todb.Id.ToString() + "_English.mp3");
             }
             TB_Add1.Text = "";
 			TB_Add2.Text = "";
