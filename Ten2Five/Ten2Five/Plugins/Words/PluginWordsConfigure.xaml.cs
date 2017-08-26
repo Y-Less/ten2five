@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Collections.ObjectModel;
 using SQLite;
 using Ten2Five.Utils;
+using System.Globalization;
 
 namespace Ten2Five.Plugins
 {
@@ -30,8 +31,11 @@ namespace Ten2Five.Plugins
 			InitializeComponent();
             TB_Add1.Focus();
             List_Words.ItemsSource = words;
-		}
-        
+
+            InputLanguageManager.SetInputLanguage(TB_Add2, CultureInfo.CreateSpecificCulture("en-GB"));
+            InputLanguageManager.SetInputLanguage(TB_Add1, CultureInfo.CreateSpecificCulture("ru-RU"));
+        }
+
         private void OK_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close(true);

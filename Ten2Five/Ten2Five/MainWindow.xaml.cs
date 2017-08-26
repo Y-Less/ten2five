@@ -230,7 +230,7 @@ namespace Ten2Five
 			mediaPlayer_.Volume = 1.0;
 
 			tasks_.CollectionChanged += this.OnCollectionChanged;
-		}
+        }
 
 		void MainWindow_Closed(object sender, EventArgs e)
 		{
