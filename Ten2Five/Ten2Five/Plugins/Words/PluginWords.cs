@@ -38,6 +38,8 @@ namespace Ten2Five.Plugins
 		private int wrong_ = 0;
 		public int Wrong { get { return wrong_; } set { wrong_ = value; Notify("Wrong"); } }
 
+        public DateTime Added { get; set; }
+
 		[Ignore]
 		public bool Right { set { if (!value) ++wrong_; ++shown_; Notify("Right"); } }
 
@@ -90,6 +92,7 @@ namespace Ten2Five.Plugins
 			omo = new Trigger() { Property = UIElement.IsMouseOverProperty, Value = false };
 			omo.Setters.Add(new Setter(Control.BackgroundProperty, Brushes.Transparent));
 			yesStyle_.Triggers.Add(omo);
+            // TODO: Generate the playlist for today.
 		}
 
 		public override Window ShowConfigure()
@@ -119,6 +122,8 @@ namespace Ten2Five.Plugins
 			{
 				foreach (WordMap newItem in e.NewItems)
 				{
+                    // Added now.
+                    newItem.Added = DateTime.Now;
 					db_.Insert(newItem);
 					newItem.PropertyChanged += this.OnItemPropertyChanged;
 				}
