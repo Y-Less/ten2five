@@ -28,13 +28,16 @@ namespace Ten2Five.Utils
         public string Name { get; set; }
     }
 
-    public class M3UHandler
+    public class M3UHandler : IDisposable
     {
         private readonly StreamWriter stream_;
 
         private int order_ = 0;
         private readonly int id_;
         private readonly SQLiteConnection db_;
+        private readonly string path_;
+
+        public bool Done => stream_ == null;
 
         public M3UHandler(SQLiteConnection db, string filename, string path = "./")
         {
@@ -45,10 +48,12 @@ namespace Ten2Five.Utils
             if (!filename.EndsWith(".m3u"))
                 filename = filename + ".m3u";
 
-            if (path.Last() != '/' && path.Last() != '\\')
-                path = path + '/';
+            if (path.Last() == '/' || path.Last() == '\\')
+                path_ = "./" + path;
+            else
+                path_ = "./" + path + '/';
 
-            if (File.Exists(path + filename))
+            if (File.Exists(path_ + filename))
             {
                 // Already exists, don't do anything.
                 stream_ = null;
@@ -56,7 +61,7 @@ namespace Ten2Five.Utils
             }
             else
             {
-                stream_ = new StreamWriter(path + filename, true, Encoding.UTF8);
+                stream_ = new StreamWriter(path_ + filename, true, Encoding.UTF8);
                 M3UFile
                     found = db_.Find<M3UFile>(x => x.Name == filename);
                 if (found == null)
@@ -87,6 +92,9 @@ namespace Ten2Five.Utils
         {
             if (stream_ != null)
             {
+                // Check that the audio for this clip exists.
+                if (!File.Exists(path_ + path))
+                    return;
                 stream_.WriteLine(path);
                 stream_.Flush();
                 if (db)
@@ -102,6 +110,11 @@ namespace Ten2Five.Utils
                     ++order_;
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            stream_.Dispose();
         }
     }
 }

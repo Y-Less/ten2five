@@ -7,9 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SQLite;
 using System.Windows.Controls;
 using System.Windows;
@@ -18,10 +15,11 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Input;
+using Ten2Five.Utils;
 
 namespace Ten2Five.Plugins
 {
-	public class WordMap : INotifyPropertyChanged
+    public class WordMap : INotifyPropertyChanged
 	{
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; set; }
@@ -93,6 +91,7 @@ namespace Ten2Five.Plugins
 			omo.Setters.Add(new Setter(Control.BackgroundProperty, Brushes.Transparent));
 			yesStyle_.Triggers.Add(omo);
             // TODO: Generate the playlist for today.
+            M3UGenerator.GenerateForToday(db, words_);
 		}
 
 		public override Window ShowConfigure()
