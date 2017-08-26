@@ -55,7 +55,7 @@
         <Button Grid.Column="1" Margin="15,15,15,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="{Binding ActualWidth, ElementName=Canvas_Small}" Name="Button_Small" Content="" Width="{Binding ActualWidth, ElementName=Canvas_Small}" Opacity="0" Click="Button_Pause_Click" Visibility="Collapsed" Cursor="Hand" />
         <TextBox KeyUp="Text_Add_Item_KeyUp" PreviewKeyDown="Text_Add_Item_KeyDown" Grid.Column="1" Height="35" HorizontalAlignment="Center" Margin="-35,50,0,0" Name="Text_Add_Item" VerticalAlignment="Top" Width="165" FontSize="20" />
         <Button Content="+" Grid.Column="1" Height="35" HorizontalAlignment="Center" Margin="165,50,0,0" Name="Button_Add_Item" VerticalAlignment="Top" Width="35" FontSize="20" Click="Button_Add_Item_Click" Padding="0,-4,0,0" />
-        <ListView Name="List_Tasks" Grid.Column="1" Margin="15,100,15,70" IsEnabled="True">
+        <ListView Name="List_Tasks" Grid.Column="1" Margin="15,100,15,105" IsEnabled="True">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Focusable" Value="false"/>
@@ -64,9 +64,10 @@
         </ListView>
         <TextBlock Name="Label_Tasks" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Text="Tasks:" VerticalAlignment="Top" FontSize="24" />
         <!--TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,120" Text="Control:" VerticalAlignment="Bottom" FontSize="24" /-->
-        <Button Content="Info" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="0,0,-180,20" Name="Button_More" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_More_Click" />
-        <Button Content="Skip" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="-180,0,0,20" Name="Button_Skip" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_Skip_Click" IsEnabled="True" />
-        <Button Content="Reset" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="0,0,0,20" Name="Button_Reset" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_Reset_Click" />
+        <Button Content="Skip" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="-120,0,0,60" Name="Button_Skip" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_Skip_Click" IsEnabled="True" />
+        <Button Content="Reset" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="0,0,-120,60" Name="Button_Reset" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_Reset_Click" />
+        <Button Content="Info" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="0,0,-120,15" Name="Button_More" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_More_Click" />
+        <Button Content="Words" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="-120,0,0,15" Name="Button_Words" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_Words_Click" />
         <!--Button Content="Mute" Grid.Column="1" Height="40" HorizontalAlignment="Center" Margin="0,0,-110,22" Name="Button_Mute" VerticalAlignment="Bottom" Width="100" FontSize="20" Click="Button_Mute_Click" /-->
     </Grid>
 </Window>

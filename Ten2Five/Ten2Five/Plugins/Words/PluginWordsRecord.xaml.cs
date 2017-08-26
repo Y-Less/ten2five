@@ -6,9 +6,7 @@
  * obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.IO;
 using System.Windows;
-using System.Windows.Input;
 using Ten2Five.Utils;
 
 namespace Ten2Five.Plugins
@@ -33,8 +31,8 @@ namespace Ten2Five.Plugins
 		private void OK_Click(object sender, RoutedEventArgs e)
 		{
             mp3_.Dispose();
-            this.DialogResult = true;
-		}
+            this.Close(true);
+        }
 
         private void Retry_Click(object sender, RoutedEventArgs e)
         {

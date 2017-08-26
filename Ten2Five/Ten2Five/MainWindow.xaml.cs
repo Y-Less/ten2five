@@ -51,16 +51,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -98,8 +92,7 @@ namespace Ten2Five
 
         private void Notify(string name)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         public Task(string n, int order)
@@ -285,7 +278,7 @@ namespace Ten2Five
 				workArc_.Percentage  = 0.0;
 				workGrey_.Percentage = 0.0;
 				endPoint_ = last.AddSeconds(settings_.WorkSeconds);
-				List_Tasks.Margin      = new Thickness( 15, 100,  15,  70);
+				List_Tasks.Margin      = new Thickness( 15, 100,  15, 105);
 				Text_Add_Item.Margin   = new Thickness(-35,  50,   0,   0);
 				Button_Add_Item.Margin = new Thickness(160,  50,   0,   0);
 				Label_Tasks.Margin     = new Thickness( 10,  10,   0,   0);
@@ -321,7 +314,7 @@ namespace Ten2Five
 				playArc_.Percentage  = 1.0;
 				playGrey_.Percentage = 1.0;
 				endPoint_ = last.AddSeconds(settings_.PlaySeconds);
-				List_Tasks.Margin      = new Thickness( 15, 385,  15,  70);
+				List_Tasks.Margin      = new Thickness( 15, 385,  15, 105);
 				Text_Add_Item.Margin   = new Thickness(-35, 335,   0,   0);
 				Button_Add_Item.Margin = new Thickness(160, 335,   0,   0);
 				Label_Tasks.Margin     = new Thickness( 10, 295,   0,   0);
@@ -388,7 +381,7 @@ namespace Ten2Five
 			this.ResetTimer(working_, last);
 		}
 		
-		private int diffSeconds(TimeSpan ts)
+		private int DiffSeconds(TimeSpan ts)
 		{
 			return ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds;
 		}
@@ -639,11 +632,24 @@ namespace Ten2Five
 
 		private void Text_Add_Item_KeyDown(object sender, KeyEventArgs e)
 		{
-			// If it is an enter - return.
-			if (e.Key == Key.Space && Text_Add_Item.Text.Length == 0)
+            if (e.Key == Key.F1)
+            {
+                Button_More_Click(null, null);
+                e.Handled = true;
+                return;
+            }
+            if (e.Key == Key.F2)
+            {
+                Button_Words_Click(null, null);
+                e.Handled = true;
+                return;
+            }
+            // If it is an enter - return.
+            if (e.Key == Key.Space && Text_Add_Item.Text.Length == 0)
 			{
 				DoPause();
 				e.Handled = true;
+                return;
 			}
 		}
 
@@ -669,6 +675,22 @@ namespace Ten2Five
 			minimise_.Restore();
 			WinApi.ShowToFront(System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle);
 		}
-	}
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void Button_Words_Click(object sender, RoutedEventArgs e)
+        {
+            Window
+                wnd = settings_.Plugins[1].ShowConfigure();
+            wnd.Show();
+            wnd.Closed += (object s2, EventArgs e2) =>
+            {
+                Text_Add_Item.Focus();
+            };
+        }
+    }
 }
 

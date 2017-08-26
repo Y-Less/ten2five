@@ -34,9 +34,9 @@ namespace Ten2Five.Plugins
         
         private void OK_Click(object sender, RoutedEventArgs e)
 		{
-			this.DialogResult = true;
+			this.Close(true);
 		}
-
+        
 		private void Remove_Word_Click(object sender, RoutedEventArgs e)
 		{
 			words_.Remove((WordMap)(sender as Button).Content);

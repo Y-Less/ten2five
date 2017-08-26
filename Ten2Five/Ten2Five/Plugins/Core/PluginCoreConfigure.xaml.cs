@@ -7,24 +7,17 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Ten2Five.Utils;
 
 namespace Ten2Five.Plugins
 {
-	/// <summary>
-	/// Interaction logic for PluginCoreConfigure.xaml
-	/// </summary>
-	public partial class PluginCoreConfigure : Window
+    /// <summary>
+    /// Interaction logic for PluginCoreConfigure.xaml
+    /// </summary>
+    public partial class PluginCoreConfigure : Window
 	{
 		private ProgSettings settings_;
 
@@ -54,21 +47,21 @@ namespace Ten2Five.Plugins
 					settings_.WorkSeconds = ws;
 					settings_.Sound = CB_PlaySounds.IsChecked == true;
 					settings_.PauseMusic = CB_PauseMusic.IsChecked == true;
-					this.DialogResult = true;
-					return;
+                    this.Close(true);
+                    return;
 				}
 			}
 			catch (Exception)
 			{
 				MessageBox.Show("Both times must be positive integers.", "Time Settings");
 			}
-			this.DialogResult = false;
-		}
+            this.Close(false);
+        }
 
 		private void Cancel_Button_Click(object sender, RoutedEventArgs e)
 		{
-			this.DialogResult = false;
-		}
+            this.Close(false);
+        }
 
 		private void TB_GotFocus(object sender, RoutedEventArgs e)
 		{
@@ -86,3 +79,4 @@ namespace Ten2Five.Plugins
 
 	}
 }
+

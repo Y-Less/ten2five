@@ -8,6 +8,7 @@
 
 using System.Windows;
 using System.Windows.Input;
+using Ten2Five.Utils;
 
 namespace Ten2Five.Plugins
 {
@@ -23,8 +24,8 @@ namespace Ten2Five.Plugins
 
 		private void OK_Click(object sender, RoutedEventArgs e)
 		{
-			this.DialogResult = true;
-		}
+            this.Close(true);
+        }
 
 		private object sawDown_ = null;
 

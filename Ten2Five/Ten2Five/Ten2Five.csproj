@@ -93,7 +93,9 @@
     <Compile Include="Plugins\Words\WordSelection.cs" />
     <Compile Include="ProgramInfo.cs" />
     <Compile Include="SingleInstance.cs" />
+    <Compile Include="Utils\M3UGenerator.cs" />
     <Compile Include="Utils\M3Uhandler.cs" />
+    <Compile Include="Utils\ModalWindow.cs" />
     <Compile Include="Utils\MP3Recorder.cs" />
     <Compile Include="WinApi.cs" />
     <Page Include="App.xaml">
