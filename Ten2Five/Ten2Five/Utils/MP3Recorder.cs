@@ -5,8 +5,8 @@ using CSCore.SoundIn;
 using CSCore.Streams;
 using System.Collections.Generic;
 using CSCore.Codecs;
+using CSCore.SoundOut;
 using System.IO;
-using System.Timers;
 
 namespace Ten2Five.Utils
 {
@@ -30,7 +30,6 @@ namespace Ten2Five.Utils
 
         public int Read(float[] buffer, int offset, int count)
         {
-            Array.Clear(buffer, offset, count);
             int
                 numberOfStoredSamples = 0,
                 num = sampleSources_.Count;
@@ -188,7 +187,7 @@ namespace Ten2Five.Utils
         }
     }
 
-    public class MP3Recorder
+    public class MP3Recorder : IDisposable
     {
         private readonly ISoundIn
             wasapiCapture_;
@@ -198,14 +197,13 @@ namespace Ten2Five.Utils
 
         private readonly MediaFoundationEncoder
             writer_;
-
-        public bool Disposed { get; private set; }
-
-        public MP3Recorder(ISoundIn src, string filename)
+        
+        public MP3Recorder(string filename)
         {
             if (File.Exists(filename))
                 File.Delete(filename);
-            wasapiCapture_ = src;
+            wasapiCapture_ = new WasapiCapture();
+            wasapiCapture_.Initialize();
             var
                 wasapiCaptureSource = new SoundInSource(wasapiCapture_);
             stereoSource_ = wasapiCaptureSource.ToStereo();
@@ -219,23 +217,14 @@ namespace Ten2Five.Utils
                     writer_.Write(buffer, 0, read);
                 };
             wasapiCapture_.Start();
-            Disposed = false;
         }
 
-        public void Clean(bool dispose)
+        public void Dispose()
         {
-            var
-                trueEnd = new Timer(500);
-            trueEnd.Elapsed += (object sender, ElapsedEventArgs e) =>
-            {
-                wasapiCapture_.Stop();
-                writer_.Dispose();
-                stereoSource_.Dispose();
-                if (dispose)
-                    wasapiCapture_.Dispose();
-                Disposed = true;
-            };
-            trueEnd.Start();
+            wasapiCapture_.Stop();
+            writer_.Dispose();
+            stereoSource_.Dispose();
+            wasapiCapture_.Dispose();
         }
 
         public static void Mix(string filename, string f0, string f1)

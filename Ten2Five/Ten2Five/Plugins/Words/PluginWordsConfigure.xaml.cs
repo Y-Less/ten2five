@@ -47,18 +47,14 @@ namespace Ten2Five.Plugins
 			string
 				s0 = TB_Add1.Text.Trim(),
 				s1 = TB_Add2.Text.Trim();
-            if (s0.Length != 0 && s1.Length != 0)
-            {
+			if (s0.Length != 0 && s1.Length != 0)
+			{
                 var
                     todb = new WordMap { Word = s0, Meaning = s1 };
                 words_.InsertSorted(todb, x => x.Word);
                 // Show the first dialog.
-                var
-                    recorder = new PluginWordsRecord("English", todb.Id, null);
-                recorder.ShowDialog();
-                recorder = new PluginWordsRecord("Russian", todb.Id, recorder.Sound);
-                recorder.ShowDialog();
-                while (!recorder.Disposed) { }
+                new PluginWordsRecord("English", todb.Id).ShowDialog();
+                new PluginWordsRecord("Russian", todb.Id).ShowDialog();
                 MP3Recorder.Mix(
                     "./Clips/" + todb.Id.ToString() + "_English_Russian.mp3",
                     "./Raw/" + todb.Id.ToString() + "_English.mp3",
