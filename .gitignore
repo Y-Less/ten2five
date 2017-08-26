@@ -7,3 +7,5 @@
 /Ten2Five/packages/CSCore.1.2.1.1/CSCore.1.2.1.1.nupkg
 /Ten2Five/packages/CSCore.1.2.1.1/lib/net35-client/CSCore.XML
 /Ten2Five/packages/CSCore.1.2.1.1/lib/net35-client/CSCore.dll
+*.mp3
+*.m3u
