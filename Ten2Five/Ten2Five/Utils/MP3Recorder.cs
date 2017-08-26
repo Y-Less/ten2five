@@ -30,6 +30,7 @@ namespace Ten2Five.Utils
 
         public int Read(float[] buffer, int offset, int count)
         {
+            Array.Clear(buffer, offset, count);
             int
                 numberOfStoredSamples = 0,
                 num = sampleSources_.Count;
