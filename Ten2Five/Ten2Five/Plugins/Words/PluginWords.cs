@@ -52,13 +52,13 @@ namespace Ten2Five.Plugins
 
 	public class PluginWords : Plugin
 	{
-		private ObservableCollection<WordMap> words_;
-		private  SQLiteConnection db_ = null;
+		private readonly ObservableCollection<WordMap> words_;
+		private readonly SQLiteConnection db_ = null;
 
 		private DateTime startTime_;
 		private WordMap currentWord_ = null;
 
-		private static WordMap nullWord_ = new WordMap { Meaning = "No Words Found!", Word = "No Words Found!" };
+		private static readonly WordMap nullWord_ = new WordMap { Meaning = "No Words Found!", Word = "No Words Found!" };
 
 		public static double DISPLAY_SECONDS = 15.0;
 		public static double ANSWER_SECONDS = DISPLAY_SECONDS + 5.0;
@@ -66,11 +66,11 @@ namespace Ten2Five.Plugins
 		private bool showMeaning_;
 		private bool showAnswer_;
 
-		private Random rand_ = new Random();
+		private readonly Random rand_ = new Random();
 		private bool dirty_ = false;
-		private Style yesStyle_;
-		private  WordMap toSave_ = null;
-		private  bool right_ = false;
+		private readonly Style yesStyle_;
+		private WordMap toSave_ = null;
+		private bool right_ = false;
 
 		public PluginWords(SQLiteConnection db)
 		{

@@ -17,15 +17,13 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type l:ExerciseMap}">
             <Grid>
-                <TextBox PreviewTextInput="MaybeAdd1" Padding="5" Margin="10,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Tag="{Binding}" TextAlignment="Left" Width="120" Text="{Binding Exercise}" FontSize="12" />
-                <TextBox PreviewTextInput="MaybeAdd1" Padding="5" Margin="150,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Tag="{Binding}" TextAlignment="Left" Width="250" Text="{Binding Meaning}" FontSize="12" />
+                <TextBox Padding="5" Margin="10,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Tag="{Binding}" TextAlignment="Left" Width="120" Text="{Binding Exercise}" FontSize="12" />
                 <Button Padding="0,-3,0,0" Margin="450,15,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="20" Width="20" Content="{Binding}" ContentTemplate="{StaticResource Remove_Button_Template}" Click="Remove_Exercise_Click" IsTabStop="False" />
             </Grid>
         </DataTemplate>
     </Window.Resources>
     <Grid>
-        <TextBox PreviewTextInput="MaybeAdd1" Name="TB_Add1" Padding="5" Margin="28,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" TextAlignment="Left" Width="120" Text="" FontSize="12" />
-        <TextBox PreviewTextInput="MaybeAdd1" Name="TB_Add2" Padding="5" Margin="168,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="70" HorizontalAlignment="Left" TextAlignment="Left" Width="250" Text="" FontSize="12" />
+        <TextBox Name="TB_Add2" Padding="5" Margin="168,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="100" HorizontalAlignment="Left" TextAlignment="Left" Width="250" Text="" FontSize="12" />
         <Button Padding="0,-3,0,0" Margin="468,60,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="20" Width="20" Content="+" Click="Add_Exercise_Click" />
         <ListView Name="List_Exercises" Margin="15,130,15,52" IsEnabled="True">
             <ListView.ItemContainerStyle>
@@ -35,8 +33,6 @@
             </ListView.ItemContainerStyle>
         </ListView>
         <Label Content="Add/Remove Exercises:" HorizontalAlignment="Left" Margin="15,15,0,0" VerticalAlignment="Top" />
-        <Label Content="Test Exercise" HorizontalAlignment="Left" Margin="50,95,0,0" VerticalAlignment="Top" />
-        <Label Content="Meaning/Answer" HorizontalAlignment="Left" Margin="240,95,0,0" VerticalAlignment="Top" />
         <Button Content="OK" HorizontalAlignment="Center" Margin="0,0,0,15" VerticalAlignment="Bottom" Width="60" Click="OK_Click" />
     </Grid>
 </Window>

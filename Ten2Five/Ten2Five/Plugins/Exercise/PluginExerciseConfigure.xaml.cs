@@ -29,11 +29,10 @@ namespace Ten2Five.Plugins
             db_ = db;
 			words_ = words;
 			InitializeComponent();
-            TB_Add1.Focus();
+            TB_Add2.Focus();
             List_Exercises.ItemsSource = words;
 
             InputLanguageManager.SetInputLanguage(TB_Add2, CultureInfo.CreateSpecificCulture("en-GB"));
-            InputLanguageManager.SetInputLanguage(TB_Add1, CultureInfo.CreateSpecificCulture("ru-RU"));
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)
@@ -49,45 +48,16 @@ namespace Ten2Five.Plugins
 		private void Add_Exercise_Click(object sender, RoutedEventArgs e)
 		{
 			string
-				s0 = TB_Add1.Text.Trim(),
 				s1 = TB_Add2.Text.Trim();
-			if (s0.Length != 0 && s1.Length != 0)
+			if (s1.Length != 0)
 			{
                 var
-                    todb = new ExerciseMap { Exercise = s0, Meaning = s1 };
+                    todb = new ExerciseMap { Exercise = s1 };
                 words_.InsertSorted(todb, x => x.Exercise);
             }
-            TB_Add1.Text = "";
 			TB_Add2.Text = "";
-			TB_Add1.Focus();
+			TB_Add2.Focus();
 		}
-
-		private void MaybeAdd1(object sender, TextCompositionEventArgs e)
-		{
-			if (e.Text == "" && e.SystemText != "" && Keyboard.IsKeyDown(Key.RightAlt))
-			{
-				TextBox tb = sender as TextBox;
-				string str = tb.Text;
-				int tp = tb.SelectionStart;
-				int tl = tb.SelectionLength;
-				tb.Text = str.Substring(0, tp) + e.SystemText + "\x0301" + str.Substring(tp + tl);
-				tb.SelectionStart = tp + e.SystemText.Length + 1;
-				e.Handled = true;
-			}
-		}
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var
-                x = new M3UHandler(db_, "test", "./Playlists");
-            x.AddFile("../Clips/hello1");
-            x.AddFile("../Clips/hello2");
-            x.AddFile("../Clips/hello3");
-            x.AddFile("../Clips/hello4");
-            x.AddFile("../Clips/hello5");
-            x.AddFile("../Clips/hello6");
-            x.AddFile("../Clips/hello7");
-        }
     }
 }
 

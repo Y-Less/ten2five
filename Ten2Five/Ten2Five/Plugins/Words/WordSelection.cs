@@ -44,7 +44,7 @@ namespace Ten2Five.Plugins
 	// 
 	public static class WordSelection
 	{
-		private static Random rand_ = new Random();
+		private static readonly Random rand_ = new Random();
 
 		private static int GetAccuracy(WordMap w)
 		{
