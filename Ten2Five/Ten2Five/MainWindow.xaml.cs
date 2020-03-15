@@ -437,8 +437,11 @@ namespace Ten2Five
 						mediaPlayer_.Position = new TimeSpan(0);
 					}
 					minimise_.ShowBaloon("Time's up!");
-					minimise_.BringToFront();
-					this.NextCycle(endPoint_);
+					if (working_)
+					{
+						minimise_.BringToFront();
+					}
+					NextCycle(endPoint_);
 				}
 				if (time >= resumePlay_)
 				{
