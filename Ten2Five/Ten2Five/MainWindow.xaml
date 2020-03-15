@@ -66,8 +66,7 @@
         <!--TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,120" Text="Control:" VerticalAlignment="Bottom" FontSize="24" /-->
         <Button Content="Skip" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="-120,0,0,60" Name="Button_Skip" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_Skip_Click" IsEnabled="True" />
         <Button Content="Reset" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="0,0,-120,60" Name="Button_Reset" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_Reset_Click" />
-        <Button Content="Info" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="0,0,-120,15" Name="Button_More" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_More_Click" />
-        <Button Content="Words" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="-120,0,0,15" Name="Button_Words" VerticalAlignment="Bottom" Width="80" FontSize="18" Click="Button_Words_Click" />
+        <Button Content="Configure" Grid.Column="1" Height="30" HorizontalAlignment="Center" Margin="50,0,50,15" Name="Button_More" VerticalAlignment="Bottom" Width="200" FontSize="18" Click="Button_More_Click" />
         <!--Button Content="Mute" Grid.Column="1" Height="40" HorizontalAlignment="Center" Margin="0,0,-110,22" Name="Button_Mute" VerticalAlignment="Bottom" Width="100" FontSize="20" Click="Button_Mute_Click" /-->
     </Grid>
 </Window>

@@ -108,6 +108,13 @@ public class MinimizeToTray
 	{
 		_window.WindowState = WindowState.Normal;
 	}
+    
+	public void BringToFront()
+	{
+		_window.WindowState = WindowState.Minimized;
+		_window.Show();
+		_window.WindowState = WindowState.Normal;
+	}
 
     /// <summary>
     /// Handles a click on the notify icon or its balloon.

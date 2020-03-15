@@ -94,7 +94,6 @@
     <Compile Include="Plugins\Exercise\PluginExerciseConfigure.xaml.cs">
       <DependentUpon>PluginExerciseConfigure.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Plugins\Exercise\ExerciseSelection.cs" />
     <Compile Include="Plugins\Words\PluginWordsRecord.xaml.cs">
       <DependentUpon>PluginWordsRecord.xaml</DependentUpon>
     </Compile>

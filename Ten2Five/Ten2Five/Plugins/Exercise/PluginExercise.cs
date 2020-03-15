@@ -139,7 +139,7 @@ namespace Ten2Five.Plugins
 			parent.Children.Add(tb);
 		}
 
-		public override string Name { get { return "Learn Exercises"; } }
+		public override string Name { get { return "Exercise"; } }
 	}
 }
 

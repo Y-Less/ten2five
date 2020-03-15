@@ -196,7 +196,11 @@ namespace Ten2Five
 
 			minimise_ = new MinimizeToTray(this, settings_.BallonShown);
 
-			settings_.Plugins = new ObservableCollection<Plugin>(new Plugin[] { new PluginCore(settings_), new PluginWords(db_) });
+			settings_.Plugins = new ObservableCollection<Plugin>(new Plugin[] {
+				new PluginCore(settings_),
+				new PluginWords(db_),
+				new PluginExercises(db_),
+			});
 
 			if (settings_ == null)
 				settings_ = new ProgSettings(db_);
@@ -433,6 +437,7 @@ namespace Ten2Five
 						mediaPlayer_.Position = new TimeSpan(0);
 					}
 					minimise_.ShowBaloon("Time's up!");
+					minimise_.BringToFront();
 					this.NextCycle(endPoint_);
 				}
 				if (time >= resumePlay_)
@@ -679,17 +684,6 @@ namespace Ten2Five
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
 
-        }
-
-        private void Button_Words_Click(object sender, RoutedEventArgs e)
-        {
-            Window
-                wnd = settings_.Plugins[1].ShowConfigure();
-            wnd.Show();
-            wnd.Closed += (object s2, EventArgs e2) =>
-            {
-                Text_Add_Item.Focus();
-            };
         }
     }
 }

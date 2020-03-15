@@ -233,12 +233,14 @@ namespace SQLite
 			utf8Length = System.Text.Encoding.UTF8.GetBytes(s, 0, s.Length, bytes, 0);
 			return bytes;
 		}
-		
+
 		/// <summary>
 		/// Used to list some code that we want the MonoTouch linker
 		/// to see, but that we never want to actually execute.
 		/// </summary>
+#pragma warning disable CS0649 // Never assigned to
 		static bool _preserveDuringLinkMagic;
+#pragma warning restore CS0649 // Never assigned to
 
 		/// <summary>
 		/// Sets a busy handler to sleep the specified amount of time when a table is locked.

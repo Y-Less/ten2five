@@ -25,7 +25,6 @@ namespace Ten2Five.Drawing
 	{
 		private double x_ = 0.0;
 		private double y_ = 0.0;
-		private Shape s_ = null;
 		private bool enabled_ = true;
 		
 		private List<DrawnBase> children_ = new List<DrawnBase>();
