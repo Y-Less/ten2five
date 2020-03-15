@@ -23,7 +23,7 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
-        <TextBox Name="TB_Add2" Padding="5" Margin="168,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="100" HorizontalAlignment="Left" TextAlignment="Left" Width="250" Text="" FontSize="12" />
+        <TextBox AcceptsReturn="True" Name="TB_Add2" Padding="5" Margin="168,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="100" HorizontalAlignment="Left" TextAlignment="Left" Width="250" Text="" FontSize="12" />
         <Button Padding="0,-3,0,0" Margin="468,60,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="20" Width="20" Content="+" Click="Add_Exercise_Click" />
         <ListView Name="List_Exercises" Margin="15,130,15,52" IsEnabled="True">
             <ListView.ItemContainerStyle>

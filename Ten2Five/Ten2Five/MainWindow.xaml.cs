@@ -643,12 +643,6 @@ namespace Ten2Five
                 e.Handled = true;
                 return;
             }
-            if (e.Key == Key.F2)
-            {
-                Button_Words_Click(null, null);
-                e.Handled = true;
-                return;
-            }
             // If it is an enter - return.
             if (e.Key == Key.Space && Text_Add_Item.Text.Length == 0)
 			{
