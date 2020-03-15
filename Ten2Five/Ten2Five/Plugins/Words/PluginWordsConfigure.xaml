@@ -38,6 +38,7 @@
         <Label Content="Test Word" HorizontalAlignment="Left" Margin="50,95,0,0" VerticalAlignment="Top" />
         <Label Content="Meaning/Answer" HorizontalAlignment="Left" Margin="240,95,0,0" VerticalAlignment="Top" />
         <Button Content="OK" HorizontalAlignment="Center" Margin="0,0,0,15" VerticalAlignment="Bottom" Width="60" Click="OK_Click" />
+        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" Margin="436,85,0,0" VerticalAlignment="Top" Height="36" Width="100">Hold alt+gr to show emphasis</TextBlock>
     </Grid>
 </Window>
 
