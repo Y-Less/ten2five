@@ -429,8 +429,7 @@ namespace Ten2Five
 					if (elapsed.TotalMilliseconds >= nextSecond_)
 					{
 						nextSecond_ += 1000.0;
-						double percentage = nextSecond_ / total.TotalMilliseconds;
-						ArcTo(percentage);
+						ArcTo(nextSecond_ / total.TotalMilliseconds);
 						TaskbarProgress.SetState(handle_, TaskbarProgress.TaskbarStates.Normal);
 						TaskbarProgress.SetValue(handle_, nextSecond_, total.TotalMilliseconds);
 					}
