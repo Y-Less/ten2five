@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System;
 using System.Drawing;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 /// <summary>
 /// Class implementing support for "minimize to tray" functionality.
@@ -21,6 +22,11 @@ public class MinimizeToTray
         // No need to track this instance; its event handlers will keep it alive
         new MinimizeToTrayInstance(window);
     }*/
+    //[DllImport("user32.dll")]
+    //public static extern int SetWindowLong(IntPtr window, int index, int value);
+    //
+    //[DllImport("user32.dll")]
+    //public static extern int GetWindowLong(IntPtr window, int index);
 
     /// <summary>
     /// Class implementing "minimize to tray" functionality for a Window instance.
@@ -35,6 +41,12 @@ public class MinimizeToTray
     public Window Window { get { return _window; } }
     public NotifyIcon NotifyIcon { get { return _notifyIcon; } }
     //public bool _balloonShown { get { return _window; } }
+
+    //const int GWL_EXSTYLE = -20;
+    //const int WS_EX_TOOLWINDOW = 0x00000080;
+    //const int WS_EX_APPWINDOW = 0x00040000;
+    //
+    //private IntPtr handle_ = IntPtr.Zero;
 
     /// <summary>
     /// Initializes a new instance of the MinimizeToTrayInstance class.
@@ -68,7 +80,11 @@ public class MinimizeToTray
 
         // Show/hide Window and NotifyIcon
         _minimized = (_window.WindowState == WindowState.Minimized);
-		_window.ShowInTaskbar = !_minimized;
+        if (_minimized)
+            _window.WindowStyle = WindowStyle.ToolWindow;
+        else
+            _window.WindowStyle = WindowStyle.SingleBorderWindow;
+        _window.ShowInTaskbar = !_minimized;
 		_notifyIcon.Visible = _minimized;
 		if (_minimized && !_balloonShown)
 		{
@@ -76,6 +92,18 @@ public class MinimizeToTray
 			_notifyIcon.ShowBalloonTip(1000, null, _window.Title, ToolTipIcon.None);
 			_balloonShown = true;
 		}
+        //if (handle_ == IntPtr.Zero)
+        //{
+        //    handle_ = Process.GetCurrentProcess().MainWindowHandle;
+        //}
+        //if (handle_ != IntPtr.Zero)
+        //{
+        //    int windowStyle = GetWindowLong(handle_, GWL_EXSTYLE);
+        //    if (_minimized)
+        //        SetWindowLong(handle_, GWL_EXSTYLE, windowStyle | WS_EX_TOOLWINDOW);
+        //    else
+        //        SetWindowLong(handle_, GWL_EXSTYLE, windowStyle & ~WS_EX_TOOLWINDOW);
+        //}
     }
 
 	public void ShowBaloon(string message)

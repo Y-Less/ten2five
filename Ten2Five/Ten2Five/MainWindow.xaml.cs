@@ -187,7 +187,7 @@ namespace Ten2Five
 
 		private Random rand_ = new Random();
 
-		private IntPtr window_ = IntPtr.Zero;
+		private IntPtr handle_ = IntPtr.Zero;
 
 		public MainWindow(string dbpath)
 		{
@@ -413,9 +413,9 @@ namespace Ten2Five
 		{
 			DateTime time = DateTime.Now;
 			double tick = (time - lastTick_).TotalMilliseconds;
-			if (window_ == IntPtr.Zero)
+			if (handle_ == IntPtr.Zero)
 			{
-				window_ = Process.GetCurrentProcess().MainWindowHandle;
+				handle_ = Process.GetCurrentProcess().MainWindowHandle;
 			}
 			if (running_)
 			{
@@ -430,8 +430,8 @@ namespace Ten2Five
 						nextSecond_ += 1000.0;
 						double percentage = nextSecond_ / total.TotalMilliseconds;
 						ArcTo(percentage);
-						TaskbarProgress.SetState(window_, TaskbarProgress.TaskbarStates.Normal);
-						TaskbarProgress.SetValue(window_, nextSecond_, total.TotalMilliseconds);
+						TaskbarProgress.SetState(handle_, TaskbarProgress.TaskbarStates.Normal);
+						TaskbarProgress.SetValue(handle_, nextSecond_, total.TotalMilliseconds);
 					}
 					DrawCurrentClock();
 				}
@@ -465,7 +465,7 @@ namespace Ten2Five
 				Text_Cycle.Content = "(Paused)";
 				if (this.WindowState != WindowState.Minimized)
 				{
-					TaskbarProgress.SetState(window_, TaskbarProgress.TaskbarStates.Normal);
+					TaskbarProgress.SetState(handle_, TaskbarProgress.TaskbarStates.Normal);
 				}
 			}
 			if (!working_ && currentPlugin_ != null)
