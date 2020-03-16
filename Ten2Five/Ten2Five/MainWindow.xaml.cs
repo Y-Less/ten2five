@@ -408,6 +408,7 @@ namespace Ten2Five
 		}
 
 		DateTime resumePlay_ = DateTime.MaxValue;
+		private bool forceClose_ = false;
 
 		private void Tick(Object source, RenderingEventArgs e)
 		{
@@ -643,6 +644,12 @@ namespace Ten2Five
 			Text_Add_Item.Focus();
 		}
 
+		private void Button_Quit_Click(object sender, RoutedEventArgs e)
+		{
+			forceClose_ = true;
+			Close();
+		}
+
 		private void Text_Add_Item_KeyUp(object sender, KeyEventArgs e)
 		{
 			// If it is an enter - return.
@@ -696,6 +703,15 @@ namespace Ten2Five
         {
 
         }
-    }
+
+		private void Window_Closing(object sender, CancelEventArgs e)
+		{
+			if (!forceClose_)
+			{
+				minimise_.Hide();
+				e.Cancel = true;
+			}
+		}
+	}
 }
 
