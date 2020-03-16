@@ -22,31 +22,17 @@ public class MinimizeToTray
         // No need to track this instance; its event handlers will keep it alive
         new MinimizeToTrayInstance(window);
     }*/
-    //[DllImport("user32.dll")]
-    //public static extern int SetWindowLong(IntPtr window, int index, int value);
-    //
-    //[DllImport("user32.dll")]
-    //public static extern int GetWindowLong(IntPtr window, int index);
 
     /// <summary>
     /// Class implementing "minimize to tray" functionality for a Window instance.
     /// </summary>
-    //private class MinimizeToTray
-    //{
-    private Window _window;
-    private NotifyIcon _notifyIcon;
-    private bool _balloonShown;
-	private  bool _minimized = false;
+    private Window window_;
+    private NotifyIcon notifyIcon_;
+    private bool balloonShown_;
+	private  bool minimized_ = false;
 
-    public Window Window { get { return _window; } }
-    public NotifyIcon NotifyIcon { get { return _notifyIcon; } }
-    //public bool _balloonShown { get { return _window; } }
-
-    //const int GWL_EXSTYLE = -20;
-    //const int WS_EX_TOOLWINDOW = 0x00000080;
-    //const int WS_EX_APPWINDOW = 0x00040000;
-    //
-    //private IntPtr handle_ = IntPtr.Zero;
+    public Window Window { get { return window_; } }
+    public NotifyIcon NotifyIcon { get { return notifyIcon_; } }
 
     /// <summary>
     /// Initializes a new instance of the MinimizeToTrayInstance class.
@@ -55,9 +41,9 @@ public class MinimizeToTray
 	public MinimizeToTray(Window window, bool balloonShown)
     {
         Debug.Assert(window != null, "window parameter is null.");
-        _window = window;
-        _window.StateChanged += new EventHandler(HandleStateChanged);
-		_balloonShown = balloonShown;
+        window_ = window;
+        window_.StateChanged += new EventHandler(HandleStateChanged);
+		balloonShown_ = balloonShown;
     }
 
     /// <summary>
@@ -67,81 +53,69 @@ public class MinimizeToTray
     /// <param name="e">Event arguments.</param>
     private void HandleStateChanged(object sender, EventArgs e)
     {
-        if (_notifyIcon == null)
+        if (notifyIcon_ == null)
         {
             // Initialize NotifyIcon instance "on demand"
-            _notifyIcon = new NotifyIcon();
-            _notifyIcon.Icon = Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly().Location);
-            _notifyIcon.MouseClick += new MouseEventHandler(HandleNotifyIconOrBalloonClicked);
-            _notifyIcon.BalloonTipClicked += new EventHandler(HandleNotifyIconOrBalloonClicked);
+            notifyIcon_ = new NotifyIcon();
+            notifyIcon_.Icon = Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly().Location);
+            notifyIcon_.MouseClick += new MouseEventHandler(HandleNotifyIconOrBalloonClicked);
+            notifyIcon_.BalloonTipClicked += new EventHandler(HandleNotifyIconOrBalloonClicked);
         }
         // Update copy of Window Title in case it has changed
-        _notifyIcon.Text = _window.Title;
+        notifyIcon_.Text = window_.Title;
 
         // Show/hide Window and NotifyIcon
-        _minimized = (_window.WindowState == WindowState.Minimized);
-        if (_minimized)
-            _window.WindowStyle = WindowStyle.ToolWindow;
+        minimized_ = (window_.WindowState == WindowState.Minimized);
+        if (minimized_)
+            window_.WindowStyle = WindowStyle.ToolWindow;
         else
-            _window.WindowStyle = WindowStyle.SingleBorderWindow;
-        _window.ShowInTaskbar = !_minimized;
-		_notifyIcon.Visible = _minimized;
-		if (_minimized && !_balloonShown)
+            window_.WindowStyle = WindowStyle.SingleBorderWindow;
+        window_.ShowInTaskbar = !minimized_;
+		notifyIcon_.Visible = minimized_;
+		if (minimized_ && !balloonShown_)
 		{
 			// If this is the first time minimizing to the tray, show the user what happened
-			_notifyIcon.ShowBalloonTip(1000, null, _window.Title, ToolTipIcon.None);
-			_balloonShown = true;
+			notifyIcon_.ShowBalloonTip(1000, null, window_.Title, ToolTipIcon.None);
+			balloonShown_ = true;
 		}
-        //if (handle_ == IntPtr.Zero)
-        //{
-        //    handle_ = Process.GetCurrentProcess().MainWindowHandle;
-        //}
-        //if (handle_ != IntPtr.Zero)
-        //{
-        //    int windowStyle = GetWindowLong(handle_, GWL_EXSTYLE);
-        //    if (_minimized)
-        //        SetWindowLong(handle_, GWL_EXSTYLE, windowStyle | WS_EX_TOOLWINDOW);
-        //    else
-        //        SetWindowLong(handle_, GWL_EXSTYLE, windowStyle & ~WS_EX_TOOLWINDOW);
-        //}
     }
 
 	public void ShowBaloon(string message)
 	{
-		if (_minimized)
+		if (minimized_)
 		{
-			_notifyIcon.ShowBalloonTip(1000, null, message, ToolTipIcon.None);
+			notifyIcon_.ShowBalloonTip(1000, null, message, ToolTipIcon.None);
 		}
 	}
 
 	public bool BaloonShown()
 	{
-		return _balloonShown;
+		return balloonShown_;
 	}
 
 	public void SetIcon(Icon icon)
 	{
-		if (_minimized)
+		if (minimized_)
 		{
-			_notifyIcon.Icon = icon;
+			notifyIcon_.Icon = icon;
 		}
 	}
 
 	public void Hide()
 	{
-		_window.WindowState = WindowState.Minimized;
+		window_.WindowState = WindowState.Minimized;
 	}
 
 	public void Restore()
 	{
-		_window.WindowState = WindowState.Normal;
+		window_.WindowState = WindowState.Normal;
 	}
     
 	public void BringToFront()
 	{
-		_window.WindowState = WindowState.Minimized;
-		_window.Show();
-		_window.WindowState = WindowState.Normal;
+		window_.WindowState = WindowState.Minimized;
+		window_.Show();
+		window_.WindowState = WindowState.Normal;
 	}
 
     /// <summary>
@@ -155,6 +129,5 @@ public class MinimizeToTray
         //_window.WindowState = WindowState.Normal;
 		Restore();
     }
-    //}
 }
 
