@@ -63,6 +63,7 @@ using SQLite;
 using Ten2Five.Drawing;
 using Ten2Five.Plugins;
 using System.Windows.Interop;
+using System.Diagnostics;
 
 namespace Ten2Five
 {
@@ -186,6 +187,8 @@ namespace Ten2Five
 
 		private Random rand_ = new Random();
 
+		private IntPtr window_ = IntPtr.Zero;
+
 		public MainWindow(string dbpath)
 		{
 			db_ = new SQLiteConnection(dbpath);
@@ -234,7 +237,7 @@ namespace Ten2Five
 			mediaPlayer_.Volume = 1.0;
 
 			tasks_.CollectionChanged += this.OnCollectionChanged;
-        }
+		}
 
 		void MainWindow_Closed(object sender, EventArgs e)
 		{
@@ -410,6 +413,10 @@ namespace Ten2Five
 		{
 			DateTime time = DateTime.Now;
 			double tick = (time - lastTick_).TotalMilliseconds;
+			if (window_ == IntPtr.Zero)
+			{
+				window_ = Process.GetCurrentProcess().MainWindowHandle;
+			}
 			if (running_)
 			{
 				TimeSpan elapsed = time - startPoint_;
@@ -421,7 +428,10 @@ namespace Ten2Five
 					if (elapsed.TotalMilliseconds >= nextSecond_)
 					{
 						nextSecond_ += 1000.0;
-						ArcTo(nextSecond_ / (endPoint_ - startPoint_).TotalMilliseconds);
+						double percentage = nextSecond_ / total.TotalMilliseconds;
+						ArcTo(percentage);
+						TaskbarProgress.SetState(window_, TaskbarProgress.TaskbarStates.Normal);
+						TaskbarProgress.SetValue(window_, nextSecond_, total.TotalMilliseconds);
 					}
 					DrawCurrentClock();
 				}
@@ -453,6 +463,10 @@ namespace Ten2Five
 			else
 			{
 				Text_Cycle.Content = "(Paused)";
+				if (this.WindowState != WindowState.Minimized)
+				{
+					TaskbarProgress.SetState(window_, TaskbarProgress.TaskbarStates.Normal);
+				}
 			}
 			if (!working_ && currentPlugin_ != null)
 			{
