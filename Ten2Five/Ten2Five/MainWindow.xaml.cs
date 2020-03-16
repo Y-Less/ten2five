@@ -159,7 +159,7 @@ namespace Ten2Five
     /// </summary>
     public partial class MainWindow : Window
     {
-		private SQLiteConnection db_;
+		private readonly SQLiteConnection db_;
 
 		private DateTime endPoint_;
 		private DateTime pausePoint_;
@@ -167,17 +167,17 @@ namespace Ten2Five
 		private bool working_ = true;
 		private bool running_ = true;
 
-		private ObservableCollection<Task> tasks_ = new ObservableCollection<Task>();
-		private MediaPlayer mediaPlayer_ = new MediaPlayer();
-		private ProgSettings settings_;
+		private readonly ObservableCollection<Task> tasks_ = new ObservableCollection<Task>();
+		private readonly MediaPlayer mediaPlayer_ = new MediaPlayer();
+		private readonly ProgSettings settings_;
 		private int cycle_ = 1;
-		private MinimizeToTray minimise_;
+		private readonly MinimizeToTray minimise_;
 
-		private DrawnCollection customRenders_ = new DrawnCollection();
-		private DrawnPartCircle workArc_ = new DrawnPartCircle();
-		private DrawnPartCircle playArc_ = new DrawnPartCircle();
-		private DrawnPartCircle workGrey_ = new DrawnPartCircle();
-		private DrawnPartCircle playGrey_ = new DrawnPartCircle();
+		private readonly DrawnCollection customRenders_ = new DrawnCollection();
+		private readonly DrawnPartCircle workArc_ = new DrawnPartCircle();
+		private readonly DrawnPartCircle playArc_ = new DrawnPartCircle();
+		private readonly DrawnPartCircle workGrey_ = new DrawnPartCircle();
+		private readonly DrawnPartCircle playGrey_ = new DrawnPartCircle();
 
 		private DateTime lastTick_ = DateTime.Now;
 
@@ -185,7 +185,7 @@ namespace Ten2Five
 
 		private Plugin currentPlugin_ = null;
 
-		private Random rand_ = new Random();
+		private readonly Random rand_ = new Random();
 
 		private IntPtr handle_ = IntPtr.Zero;
 
@@ -407,7 +407,7 @@ namespace Ten2Five
 			}
 		}
 
-		DateTime resumePlay_ = DateTime.MaxValue;
+		private DateTime resumePlay_ = DateTime.MaxValue;
 		private bool forceClose_ = false;
 
 		private void Tick(Object source, RenderingEventArgs e)
