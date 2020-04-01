@@ -451,7 +451,7 @@ namespace Ten2Five
 					{
 						minimise_.BringToFront();
 					}
-					NextCycle(endPoint_);
+					NextCycle(time);
 				}
 				if (time >= resumePlay_)
 				{
